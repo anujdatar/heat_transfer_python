@@ -2,7 +2,10 @@
 import time
 import numpy as np
 
-from functions import import_settings
+from functions import import_material
+from functions import import_process
+from functions import import_solver_settings
+
 from functions import heat_out
 
 STEF_BOLTZ = 5.67e-8
@@ -11,8 +14,12 @@ n = 100
 m = 100
 
 material = 'Ti6Al4V'
-(rho, Cp, k, phi_melt, emmi, L_pow, L_spot,
- L_vel, phi_inf, hc_air) = import_settings(material)
+rho, Cp, k, phi_melt, emmi = import_material(material)
+
+L_pow, L_spot, L_vel, phi_inf, hc_air = import_process()
+
+solver = 'Gauss-Seidel'
+
 
 alpha = k/(rho*Cp)
 

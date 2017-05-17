@@ -1,0 +1,9 @@
+{
+  "Ti6Al4V": {
+    "Density": 4450,
+    "SpecificHeat": 564,
+    "Conductivity": 5,
+    "MeltingTemperature": 1900,
+    "Emissivity": 0.5
+  }
+}

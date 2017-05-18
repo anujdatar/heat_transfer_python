@@ -11,7 +11,7 @@ def import_material(material):
 
     # material
     rho = data[material]['Density']
-    Cp = data[material]['SPecificHeat']
+    Cp = data[material]['SpecificHeat']
     k = data[material]['Conductivity']
     T_melt = data[material]['MeltingTemperature']
     emissiv = data[material]['Emissivity']
@@ -20,11 +20,11 @@ def import_material(material):
 
 def import_process():
     ''' import process serrings'''
-    
+
     jsfile = open('./settings/process_settings.json')
     data = json.load(jsfile)
     jsfile.close()
-    
+
     # process
     L_pow = data['process']['LaserPower']
     L_spot = data['process']['LaserSpotSize']
@@ -36,13 +36,13 @@ def import_process():
 
 def import_solver_settings(solver):
     ''' import solver settings '''
-    
+
     jsfile = open('./settings/solver_settings.json')
     data = json.load(jsfile)
     jsfile.close()
-    
+
     epsit = data[solver]['epsit']
     max_iter = data[solver]['max_iter']
     omega = data[solver]['omega']
-    
+
     return epsit, max_iter, omega

@@ -9,11 +9,14 @@ import numpy as np
 
 STEF_BOLTZ = 5.67e-8
 
-def heat_out(hc_air, phi, phi_old, phi_inf, emmi, heat_loss_type=2):
+def heat_out(hc_air, phi, phi_old, phi_inf, emmi, heat_loss_type):
     '''calculate heat out based on convection and radiation
     '''
 
-    if heat_loss_type == 1:
+    if heat_loss_type == 'Cond':
+        source_out = np.zeros(phi.shape)
+
+    elif heat_loss_type == 'Conv':
         source_out = hc_air * np.subtract(phi, phi_old)
 
     else:

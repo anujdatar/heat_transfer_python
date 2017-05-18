@@ -1,40 +1,61 @@
 
 import time
 import numpy as np
+import matplotlib. pyplot as plt
 
 from functions import import_material
 from functions import import_process
 from functions import import_solver_settings
+from solvers import gauss_seidel
 
 from functions import heat_out
 
 STEF_BOLTZ = 5.67e-8
 
-n = 100
-m = 100
-
+problem_type = 'Transient'  # 'SteadyState' or 'Transient'
 material = 'Ti6Al4V'
+solver = 'GaussSeidel'  # 'Gauss-Seidel' or 'ADI'
+heat_loss_type = 'ConvRad' # 'Cond' or 'Conv' or 'ConvRad'
+
+print('%s analysis, %s solver, %s heat loss, material => %s'
+      %(problem_type, solver, heat_loss_type, material))
+
+if solver == 'GaussSeidel':
+    bdry_offset = 1
+elif solver == 'ADI':
+    bdry_offset = 0
+
+# import material properties, process and algorithm parameters
 rho, Cp, k, phi_melt, emmi = import_material(material)
-
 L_pow, L_spot, L_vel, phi_inf, hc_air = import_process()
-
-solver = 'Gauss-Seidel'
-
+epsit, max_iter, omega = import_solver_settings(solver)
 
 alpha = k/(rho*Cp)
 
 dx = L_spot
 
-dt = dx/L_vel
-time_steps = 1
+# calculate time step size
+total_time = 10#dx/L_vel
+dt = total_time
 
+# coefficient
 coeff = alpha/(dx*dx)
+if problem_type == 'SteadyState':
+    coeff_p = 4 * coeff
+elif problem_type == 'Transient':
+    coeff_p = (4*coeff) + (1/dt)
 
-L_flux =  L_pow / (L_spot * L_spot)
+# heat flux input
+L_flux = L_pow / (L_spot * L_spot)
 
-nx = n + 1
-ny = m + 1
+# Grid size
+n = 100
+m = 100
 
+nx = n + 1 + 2*bdry_offset
+ny = m + 1 + 2*bdry_offset
+
+# setting up initial and empty matrices
 phi = np.zeros((ny, nx)) + phi_inf
 source_in = np.zeros((ny, nx))
 resid = np.zeros((ny, nx))
@@ -45,20 +66,38 @@ hc_eff = np.zeros((ny, nx))
 phi_old = np.copy(phi)
 
 source_in[4:7, 4:7] = L_flux
-phi[4:7, 4:7] = phi_melt
+#phi[4:7, 4:7] = phi_melt
 
-#heat_loss_type = 1
-#source_out = heat_out(hc_air, phi, phi_old, phi_inf, emmi, STEF_BOLTZ)#,heat_loss_type)
+print('input heat flux = %e, dx = %e, dt = %f' %(L_flux, dx, dt))
 
+# start iterative algorithm
 start_timer = time.time()
 
-time_step = 0
-while time_step < time_steps:
-    time_step += 1
+curr_time = 0
 
-    source_out = heat_out(hc_air, phi, phi_old, phi_inf, emmi, STEF_BOLTZ)
+while curr_time < total_time:
+    curr_time += dt
+
+    source_out = heat_out(hc_air, phi, phi_old, phi_inf, emmi, heat_loss_type)
     source_net = np.subtract(source_in, source_out)
     source_net = np.multiply(alpha/k, source_net)
-    
-    
 
+    if problem_type == 'SteadyState':
+        source = np.copy(source_net)
+    elif problem_type == 'Transient':
+        source = np.add(source_net, np.multiply(phi, 1/dt))
+
+    phi, phi_old, iter_count, iter_update, resid, dphi_max, conv_err = \
+    gauss_seidel(phi, phi_inf, source, epsit, max_iter,
+                 omega, coeff, coeff_p, resid)
+
+resid_max = np.max(resid)
+end_timer = time.time() - start_timer
+print('Analysis time = %.2f seconds' % end_timer)
+
+print('max phi %.2f, iters %d, iter_update %e, resid_max %e'
+      %(np.max(phi), iter_count, iter_update, resid_max))
+
+plt.contourf(phi)
+plt.jet()
+plt.colorbar()

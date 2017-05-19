@@ -1,11 +1,12 @@
-
+''' Heat transfer using python '''
 import time
 import numpy as np
 import matplotlib. pyplot as plt
 
-from functions import import_material
-from functions import import_process
-from functions import import_solver_settings
+from settings import import_material
+from settings import import_process
+from settings import import_solver_settings
+
 from solvers import gauss_seidel
 
 from functions import heat_out
@@ -35,7 +36,7 @@ alpha = k/(rho*Cp)
 dx = L_spot
 
 # calculate time step size
-total_time = 10#dx/L_vel
+total_time = dx/L_vel
 dt = total_time
 
 # coefficient
@@ -68,7 +69,7 @@ phi_old = np.copy(phi)
 source_in[4:7, 4:7] = L_flux
 #phi[4:7, 4:7] = phi_melt
 
-print('input heat flux = %e, dx = %e, dt = %f' %(L_flux, dx, dt))
+print('n = %d, dx = %e, dt = %f, input heat flux = %e' %(n, dx, dt, L_flux))
 
 # start iterative algorithm
 start_timer = time.time()

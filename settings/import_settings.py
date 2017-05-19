@@ -19,7 +19,7 @@ def import_material(material):
     return rho, Cp, k, T_melt, emissiv
 
 def import_process():
-    ''' import process serrings'''
+    ''' import process settings'''
 
     jsfile = open('./settings/process_settings.json')
     data = json.load(jsfile)

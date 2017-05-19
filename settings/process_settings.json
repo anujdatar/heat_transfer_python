@@ -3,7 +3,7 @@
     "LaserPower": 100,
     "LaserSpotSize": 2e-4,
     "LaserScanningVelocity": 4e-1,
-    "AmbientTemperature": 300,
+    "AmbientTemperature": 800,
     "ConvectiveCoefficient" : 5
   }
 }

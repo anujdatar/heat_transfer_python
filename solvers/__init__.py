@@ -6,5 +6,6 @@ Created on Thu May 18 02:13:12 2017
 """
 
 from .gauss_seidel import gauss_seidel
+from .tridiagonal_solver import tdma_solver
 
-__all__ = ['gauss_seidel']
+__all__ = ['gauss_seidel', 'tdma_solver']

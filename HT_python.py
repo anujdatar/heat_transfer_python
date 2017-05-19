@@ -50,9 +50,9 @@ elif problem_type == 'Transient':
 L_flux = L_pow / (L_spot * L_spot)
 
 # Grid size
-n = 100
-m = 100
-
+n = 30
+m = 30
+lx = n*dx
 nx = n + 1 + 2*bdry_offset
 ny = m + 1 + 2*bdry_offset
 
@@ -102,3 +102,5 @@ print('max phi %.2f, iters %d, iter_update %e, resid_max %e'
 plt.contourf(phi)
 plt.jet()
 plt.colorbar()
+
+print('\nlx = %.2e, dx = %.2e, dt = %.2e, input flux = %.2e' %(lx, dx, dt, L_flux))

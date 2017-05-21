@@ -35,6 +35,7 @@ myfunction(p, c=q, b=r)
 #%%
 
 import numpy as np
+from solvers import tdma_solver
 
 A = np.array([[1, 3, 0, 0], [2, 4, 1, 0], [0, 1, 3, 2], [0, 0, 2, 4]])
 B = np.array([14, 22, 20, 24])
@@ -72,4 +73,10 @@ print(x1)
 
 x2 = np.linalg.solve(A, B)
 print(x2)
-    
+
+x3 = tdma_solver(l, d, u, b)
+print(x3)
+
+#%%
+
+

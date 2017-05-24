@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 """
 Created on Thu May 18 01:44:08 2017
@@ -160,4 +159,6 @@ print(x2)
 
 x3 = tdma_solver(l, d, u, b)
 print(x3)
+
+#%%
 

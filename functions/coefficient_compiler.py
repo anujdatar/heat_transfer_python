@@ -8,7 +8,7 @@ Created on Thu May 18 17:00:57 2017
 import numpy as np
 
 def compile_coeff(A_ll, A_l, A_d, A_u, A_uu, sweep, x, y):
-    '''compile diagonal elements of the coefficient matrix in proper order'''
+    """ compile diagonal elements of the coefficient matrix in proper order """
     
     if sweep == 'row':
         n = x
@@ -45,3 +45,12 @@ def compile_coeff(A_ll, A_l, A_d, A_u, A_uu, sweep, x, y):
         uu[i] = A_uu[i+n]
         
     return ll, l, d, u, uu
+
+
+def compile_Amat(A_ll, A_l, A_d, A_u, A_uu):
+    """ take diagonal vectors and compile the A-square matrix """
+    
+    xy = len(A_d)
+    a_mat = np.zeros((xy, xy))
+    
+    

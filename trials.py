@@ -161,4 +161,9 @@ x3 = tdma_solver(l, d, u, b)
 print(x3)
 
 #%%
+from functions import compile_coeff
+import numpy as np
 
+a = np.array([1, 2, 3, 4, 5, 6, 7 ,8, 9])
+
+ll, l, d, u, uu = compile_coeff(a, a, a, a, a, 'row', 3, 3)

@@ -5,26 +5,26 @@ Created on Wed May 24 17:59:17 2017
 @author: Anuj
 """
 
-import numpy as np
+#import numpy as np
 
 STEF_BOLTZ = 5.670367e-8
 
 def boundary_conditions_source(source, coeff, phi_inf):
     """ modify source vector based on the boundary conditions
     for the edges and corner nodes
-    
+
     Args:
         source: source vector
         coeff: coefficient value
         phi_inf: ambient temperature
-        
+
     Returns:
         source vector
     """
-    
+
     nx = source.shape[1]
     ny = source.shape[0]
-    
+
 # Western Face #### for x = x_min, and y = 1:ny-1
     for j in range(1,ny-1):
         source[j, 0] = source[j, 0] - coeff*phi_inf

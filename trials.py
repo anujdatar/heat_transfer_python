@@ -80,7 +80,6 @@ print(x3)
 #%%
 
 
-=======
 # -*- coding: utf-8 -*-
 """
 Created on Thu May 18 01:44:08 2017

@@ -61,7 +61,7 @@ for i in range(n-1):
     l[i+1] = 0 #l[i+1] - alpha
     d[i+1] = d[i+1] - alpha*u[i]
     b[i+1] = b[i+1] - alpha*b[i]
-    
+
     print(i, alpha, l, d, u, b)
 x1 = np.zeros(n)
 
@@ -143,7 +143,7 @@ for i in range(n-1):
     l[i+1] = 0 #l[i+1] - alpha
     d[i+1] = d[i+1] - alpha*u[i]
     b[i+1] = b[i+1] - alpha*b[i]
-    
+
     print(i, alpha, l, d, u, b)
 x1 = np.zeros(n)
 
@@ -160,9 +160,11 @@ x3 = tdma_solver(l, d, u, b)
 print(x3)
 
 #%%
-from functions import compile_coeff
+from functions import compile_diags
+from functions import compile_amat
 import numpy as np
 
-a = np.array([1, 2, 3, 4, 5, 6, 7 ,8, 9])
+a = np.array([1, 2, 3, 4, 5, 6, 7 ,8, 9, 10, 11, 12])
 
-ll, l, d, u, uu = compile_coeff(a, a, a, a, a, 'row', 3, 3)
+ll, l, d, u, uu = compile_diags(a, a, a, a, a, 'col', 3, 4)
+amat = compile_amat(ll, l, d, u, uu, 'col', 3, 4)
